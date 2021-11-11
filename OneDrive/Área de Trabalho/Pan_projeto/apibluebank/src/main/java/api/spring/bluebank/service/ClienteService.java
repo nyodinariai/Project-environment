@@ -1,11 +1,12 @@
 package api.spring.bluebank.service;
 
 
-import java.util.List;
+import java.nio.charset.Charset;
 import java.util.Optional;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -16,14 +17,33 @@ import api.spring.bluebank.repository.ClienteRepository;
 public class ClienteService {
 	private @Autowired ClienteRepository repository;
 	
-	public ResponseEntity<Cliente> cadastrarCliente(Cliente novocliente) {
-		List<Cliente> clienteExistente = repository.findAllById(novocliente.getId());
-		if (clienteExistente.isEmpty()) {
-			return ResponseEntity.status(201).body(repository.save(novocliente));
-		} else {
-			return ResponseEntity.badRequest().build();
+	public Cliente cadastrarCliente(Cliente novocliente) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		String senhaEncoder = encoder.encode(novocliente.getSenha());
+		novocliente.setSenha(senhaEncoder);
+		return repository.save(novocliente);
+	}
+	
+	public Optional<Cliente> logar(Optional<Cliente> login){
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		Optional<Cliente> clienteExistente = repository.findByEmail(login.get().getEmail());
+		
+		if (clienteExistente.isPresent()) {
+			if (encoder.matches(login.get().getSenha(), clienteExistente.get().getSenha())) {
+				String auth = login.get().getEmail() + ":" + login.get().getSenha();
+				byte[] encodeAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
+				String authHeader = "Basic " + new String(encodeAuth);
+				
+				login.get().setToken(authHeader);
+				login.get().setNome(clienteExistente.get().getNome());
+				login.get().setSobrenome(clienteExistente.get().getSobrenome());
+				login.get().setCpf(clienteExistente.get().getCpf());
+						
+				return login;
+			}
 		}
-
+		return null;
+		
 	}
 	
 	public Optional<Cliente> alterarEmail(Long id,

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,7 +28,6 @@ import api.spring.bluebank.service.ClienteService;
  * atualização de cliente ok 
  * deletar clientes ok 
  * historico de transações entre contas
->>>>>>> ca6acf8205d47860540d2e66a02793aaab5064a3
  * 
  * não deletar se houver saldo
  * limite de pagamento ou transferencia pix
@@ -38,6 +38,7 @@ import api.spring.bluebank.service.ClienteService;
  * criar metodo de saque
  * criar metodo de transferencia
 */
+
 
 
 @RestController
@@ -57,9 +58,14 @@ public class ClienteController {
 
 	@PostMapping("/cadastrar")
 	public ResponseEntity<Cliente> cadastrarCliente(@RequestBody Cliente novocliente) {
-		return service.cadastrarCliente(novocliente);
-
-
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(service.cadastrarCliente(novocliente));
+	}
+	
+	@PostMapping("/logar")
+	public ResponseEntity<Cliente> autenticar(@RequestBody Optional<Cliente> user) {
+		return service.logar(user).map(resp -> ResponseEntity.ok(resp))
+				.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
 	}
 
 	@PutMapping("/id/{id}")

@@ -62,6 +62,8 @@ public class Cliente {
 	
 	private String senha;
 	
+	private String token;
+	
 	//enum tipo pessoa
 	
 	
@@ -121,6 +123,14 @@ public class Cliente {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 	
 	

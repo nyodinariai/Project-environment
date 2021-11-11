@@ -27,11 +27,11 @@ public class Conta {
 	
 	//enum tipo de conta
 
-	public Conta(int agencia, String conta) {
-		super();
-		this.agencia = agencia;
-		this.conta = conta;
-	}
+//	public Conta(int agencia, String conta) {
+//		super();
+//		this.agencia = agencia;
+//		this.conta = conta;
+//	}
 
 	
 	public int getAgencia() {

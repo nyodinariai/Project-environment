@@ -17,12 +17,9 @@ public class ContaService {
 	
 //	public Conta verificaConta(Long id, int agencia, String conta, double saldo){
 //		Optional<Conta> conta1 = repository.findById(id);
-//		
-//		
 //		return conta1.orElseThrow(() -> new NaoEcontrado(
 //				"conta não válida" + Conta.class.getName();
 //				));
-//		
 //	}
 
 //	public void deposita(double valor, Long id) {
@@ -30,4 +27,8 @@ public class ContaService {
 //		
 //		conta.get().getSaldo() += valor;
 //	}
+	
+	
+	
 }
+
