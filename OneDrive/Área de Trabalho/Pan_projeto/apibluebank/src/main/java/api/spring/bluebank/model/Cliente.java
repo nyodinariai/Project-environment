@@ -2,11 +2,13 @@ package api.spring.bluebank.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -46,14 +48,6 @@ public class Cliente {
 	@Column(unique = true, nullable = false)
 	private String cpf;
 	
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
 	//@Column(name = "telefone", nullable = true, unique = true, length = 11)
 	private int telefone;
 	
@@ -67,6 +61,11 @@ public class Cliente {
 	//enum tipo pessoa
 	
 	
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	private Conta conta;
+	
+	
+	//special methods
 	public Long getId() {
 		return id;
 	}
@@ -133,6 +132,13 @@ public class Cliente {
 		this.token = token;
 	}
 	
+	public String getCpf() {
+		return cpf;
+	}
+	
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
 	
 	
 	

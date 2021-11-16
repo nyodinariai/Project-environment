@@ -1,9 +1,11 @@
 package api.spring.bluebank.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -20,18 +22,21 @@ public class Conta {
 	
 	private double saldo;
 	
-	
 	//private Cliente titular;
 	
 	private static int total; //esse atributo serve para sabermos quantas contas foram abertas
 	
 	//enum tipo de conta
+	
+	
+	@OneToOne
+	private Cliente cliente;
 
-//	public Conta(int agencia, String conta) {
-//		super();
-//		this.agencia = agencia;
-//		this.conta = conta;
-//	}
+	public Conta(int agencia, String conta) {
+		super();
+		this.agencia = agencia;
+		this.conta = conta;
+	}
 
 	
 	public int getAgencia() {
@@ -64,13 +69,15 @@ public class Conta {
 	public void setSaldo(double saldo) {
 		this.saldo = saldo;
 	}
-
-
+	
+	
+	//toString
 	@Override
 	public String toString() {
 		return "Conta [agencia=" + agencia + ", conta=" + conta + ", saldo=" + saldo + "]";
 	}
 	
+	//methods
 	public void deposita(double valor) {
 		this.saldo += valor;
 	}
