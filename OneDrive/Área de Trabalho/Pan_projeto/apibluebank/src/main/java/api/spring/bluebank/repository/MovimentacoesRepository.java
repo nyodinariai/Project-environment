@@ -6,11 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import api.spring.bluebank.model.Conta;
+import api.spring.bluebank.model.Movimentacoes;
 
 @Repository
-public interface ContaRepository extends JpaRepository<Conta, Long>{
+public interface MovimentacoesRepository extends JpaRepository<Movimentacoes, Long> {
 
-	@Query(value = "SELECT * FROM conta c WHERE c.conta = :conta ", nativeQuery = true)
-	List<Conta>findByConta( Conta conta);
 }

@@ -19,23 +19,23 @@ import api.spring.bluebank.repository.ClienteRepository;
 public class ClienteService {
 	private @Autowired ClienteRepository repository;
 
-	public Cliente cadastrarCliente(Cliente novocliente) {
-		List<Cliente> clienteExistente = repository.findByEmail(novocliente.getEmail());
-
-		Calendar nascimento = new GregorianCalendar();
-		nascimento.setTime(novocliente.getData_nascimento());
-		Calendar dataAtual = Calendar.getInstance();
-		int idade = dataAtual.get(Calendar.YEAR) - nascimento.get(Calendar.YEAR);
-
-		if (clienteExistente.isEmpty() && idade > 17) {
-			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-			String senhaEncoder = encoder.encode(novocliente.getSenha());
-			novocliente.setSenha(senhaEncoder);
-			return repository.save(novocliente);
-		} else {
-			return ResponseEntity.badRequest().build();
-		}
-	}
+//	public Cliente cadastrarCliente(Cliente novocliente) {
+//		Optional<Cliente> clienteExistente = repository.findByEmail(novocliente.getEmail());
+//
+//		Calendar nascimento = new GregorianCalendar();
+//		nascimento.setTime(novocliente.getData_nascimento());
+//		Calendar dataAtual = Calendar.getInstance();
+//		int idade = dataAtual.get(Calendar.YEAR) - nascimento.get(Calendar.YEAR);
+//
+//		if (clienteExistente.isEmpty() && idade > 17) {
+//			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//			String senhaEncoder = encoder.encode(novocliente.getSenha());
+//			novocliente.setSenha(senhaEncoder);
+//			return repository.save(novocliente);
+//		} else {
+//			return ResponseEntity.badRequest().build();
+//		}
+//	}
 
 	public Optional<Cliente> logar(Optional<Cliente> login) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
