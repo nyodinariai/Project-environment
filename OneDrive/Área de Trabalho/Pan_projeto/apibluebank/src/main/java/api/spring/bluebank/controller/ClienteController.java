@@ -56,11 +56,11 @@ public class ClienteController {
 		return ResponseEntity.ok(repository.findAll());
 	}
 
-	@PostMapping("/cadastrar")
-	public ResponseEntity<Cliente> cadastrarCliente(@RequestBody Cliente novocliente) {
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(service.cadastrarCliente(novocliente));
-	}
+//	@PostMapping("/cadastrar")
+//	public ResponseEntity<Cliente> cadastrarCliente(@RequestBody Cliente novocliente) {
+//		return ResponseEntity.status(HttpStatus.CREATED)
+//				.body(service.cadastrarCliente(novocliente));
+//	}
 	
 	@PostMapping("/logar")
 	public ResponseEntity<Cliente> autenticar(@RequestBody Optional<Cliente> user) {

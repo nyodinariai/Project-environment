@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import api.spring.bluebank.exception.NaoEcontrado;
 import api.spring.bluebank.model.Conta;
 import api.spring.bluebank.repository.ContaRepository;
+import api.spring.bluebank.repository.MovimentacoesRepository;
 
 @Service
 public class ContaService {

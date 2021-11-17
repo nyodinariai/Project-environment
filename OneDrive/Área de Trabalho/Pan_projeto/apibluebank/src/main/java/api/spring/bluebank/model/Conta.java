@@ -6,10 +6,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import java.util.List;
+import javax.persistence. *;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Conta {
+@Table(name="conta")
+public class Conta{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -17,13 +20,31 @@ public class Conta {
 	@NotNull
 	private int agencia;
 	
-	@NotNull
-	private String conta;
-	
 	private double saldo;
 	
 	//private Cliente titular;
+	private Long conta;
 	
+	@OneToMany(mappedBy = "conta", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Movimentacoes> movimentacoes;
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+//	public List<Movimentacoes> getMovimentacoes() {
+//		return movimentacoes;
+//	}
+//
+//	public void setMovimentacoes(List<Movimentacoes> movimentacoes) {
+//		this.movimentacoes = movimentacoes;
+//	}
+
+
 	private static int total; //esse atributo serve para sabermos quantas contas foram abertas
 	
 	//enum tipo de conta
@@ -32,33 +53,39 @@ public class Conta {
 	@OneToOne
 	private Cliente cliente;
 
-	public Conta(int agencia, String conta) {
+	public Conta(int agencia, Long conta) {
 		super();
 		this.agencia = agencia;
 		this.conta = conta;
 	}
 
+	public Conta() {
+	}
 	
+	public Conta(@NotNull Long conta) {
+		super();
+		this.conta = conta;
+	}
+
 	public int getAgencia() {
 		return agencia;
 	}
-
-
-	
 
 	public void setAgencia(int agencia) {
 		this.agencia = agencia;
 	}
 
 
-	public String getConta() {
+	public Long getConta() {
 		return conta;
 	}
 
 
-	public void setConta(String conta) {
+	public void setConta(@NotNull Long conta) {
 		this.conta = conta;
 	}
+
+
 
 
 	public double getSaldo() {
@@ -99,7 +126,5 @@ public class Conta {
 		} else {
 			return false;
 		}
-	}
-	
-	
+	}	
 }
