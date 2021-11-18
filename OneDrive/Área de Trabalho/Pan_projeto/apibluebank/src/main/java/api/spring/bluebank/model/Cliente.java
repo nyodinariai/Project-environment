@@ -62,7 +62,7 @@ public class Cliente {
 	// relationship
 
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.REMOVE)
-	@JsonIgnoreProperties("cliente")
+	@JsonIgnoreProperties({"cliente", "movimentacoes"})
 	private List<Conta> conta = new ArrayList<>();
 
 	// special methods

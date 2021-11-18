@@ -31,8 +31,8 @@ public class Conta {
 	private static int total; // esse atributo serve para sabermos quantas contas foram abertas
 	
 	//DATABASE RELATIONSHIP 
-	@OneToMany(mappedBy = "conta", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Movimentacoes> movimentacoes;
+	@OneToMany(mappedBy = "conta", cascade = CascadeType.REMOVE)
+	private List<Movimentacoes> movimentacoes = new ArrayList<>();
 	
 	@ManyToOne
 	@JsonIgnoreProperties("conta")
@@ -89,12 +89,17 @@ public class Conta {
 		this.conta = conta;
 	}
 
-	public Conta() {
+
+	public Conta(@NotNull int agencia, @NotNull Long conta, List<Movimentacoes> movimentacoes, double saldo) {
+		super();
+		this.agencia = agencia;
+		this.conta = conta;
+		this.movimentacoes = movimentacoes;
+		this.saldo = saldo;
 	}
 
-	public Conta(@NotNull Long conta) {
+	public Conta() {
 		super();
-		this.conta = conta;
 	}
 
 	public int getAgencia() {
