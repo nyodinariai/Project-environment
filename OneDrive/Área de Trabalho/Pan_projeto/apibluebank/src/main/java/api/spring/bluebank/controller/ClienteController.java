@@ -22,24 +22,14 @@ import api.spring.bluebank.service.ClienteService;
 
 /**
  * 
- * @author hanely 
- * cadastro de cliente ok 
- * listagem de cliente ok 
- * atualização de cliente ok 
- * deletar clientes ok 
- * historico de transações entre contas
+ * @author hanely cadastro de cliente ok listagem de cliente ok atualização de
+ *         cliente ok deletar clientes ok historico de transações entre contas
  * 
- * não deletar se houver saldo
- * limite de pagamento ou transferencia pix
- * validar cpf na hora de cadastrar (regex) api da receita
- * validar idade
- * validar cep -  api
- * criar metodo deposito
- * criar metodo de saque
- * criar metodo de transferencia
-*/
-
-
+ *         não deletar se houver saldo limite de pagamento ou transferencia pix
+ *         validar cpf na hora de cadastrar (regex) api da receita validar idade
+ *         validar cep - api criar metodo deposito criar metodo de saque criar
+ *         metodo de transferencia
+ */
 
 @RestController
 @RequestMapping("/cliente")
@@ -56,12 +46,16 @@ public class ClienteController {
 		return ResponseEntity.ok(repository.findAll());
 	}
 
+	@GetMapping("id/{id}")
+	public ResponseEntity<Cliente> buscarPorId(@PathVariable Long id) {
+		return repository.findById(id).map(resp -> ResponseEntity.ok(resp)).orElse(ResponseEntity.notFound().build());
+	}
+
 	@PostMapping("/cadastrar")
 	public ResponseEntity<Object> cadastrarCliente(@RequestBody Cliente novocliente) {
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(service.cadastrarCliente(novocliente));
+		return ResponseEntity.status(HttpStatus.CREATED).body(service.cadastrarCliente(novocliente));
 	}
-	
+
 	@PostMapping("/logar")
 	public ResponseEntity<Cliente> autenticar(@RequestBody Optional<Cliente> user) {
 		return service.logar(user).map(resp -> ResponseEntity.ok(resp))
@@ -69,9 +63,9 @@ public class ClienteController {
 	}
 
 	@PutMapping("/id/{id}")
-	public Optional<Cliente> alterarEmail(@PathVariable(value = "id") Long id,
+	public ResponseEntity<Optional<Cliente>> alterarEmail(@PathVariable(value = "id") Long id,
 			@RequestBody Cliente clienteParaAtualizar) {
-		return service.alterarEmail(id, clienteParaAtualizar);
+		return ResponseEntity.status(HttpStatus.OK).body(service.alterarEmail(id, clienteParaAtualizar));
 
 	}
 

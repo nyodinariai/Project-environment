@@ -12,6 +12,8 @@ import javax.persistence.Id;
 
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -23,10 +25,6 @@ public class Movimentacoes{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@ManyToOne
-	@Cascade(CascadeType.SAVE_UPDATE)
-	private Conta conta;
 
 //	@Column(name = "conta_id")
 //	private Long conta;
@@ -38,8 +36,13 @@ public class Movimentacoes{
 	@Column(name = "valor", nullable = false, length = 60)
 	private Double valor;
 	
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data")
-	private Date data;
+	private Date data = new java.sql.Date(System.currentTimeMillis());
+	
+	@ManyToOne
+	@Cascade(CascadeType.SAVE_UPDATE)
+	private Conta conta;
 
 	public Movimentacoes() {
 		this(new Date());

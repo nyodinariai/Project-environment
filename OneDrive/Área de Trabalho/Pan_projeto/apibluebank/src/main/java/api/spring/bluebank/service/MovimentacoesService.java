@@ -43,6 +43,7 @@ public class MovimentacoesService {
 			return ResponseEntity.status(201).body(mRepository.save(inserir));
 		} else {	
 			return ResponseEntity.badRequest().build();
+	
 		}
 	}
 }

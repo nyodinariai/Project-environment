@@ -36,9 +36,5 @@ public class MovimentacoesController {
 		return ResponseEntity.ok(mRepository.findAll());
 	}
 
-	//@PostMapping("/depositar/id/{id}")
-	//public ResponseEntity<ResponseEntity<Movimentacoes>> deposito(@PathVariable Long id, @RequestBody Movimentacoes novaMovimentacao) {
-	//	return ResponseEntity.status(HttpStatus.CREATED)
-	//			.body(mService.deposito(novaMovimentacao));
-	//}
+
 }
