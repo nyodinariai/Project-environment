@@ -51,6 +51,7 @@ public class MovimentacoesService {
 			
 			contaExiste.get(0).setSaldo(saldoAtual - mov.getValor());
 			System.out.println(contaExiste.get(0).getSaldo());
+
 			return ResponseEntity.status(201).body(mRepository.save(inserir));
 		} else {	
 			return ResponseEntity.badRequest().build();
