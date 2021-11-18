@@ -59,12 +59,16 @@ public class Conta{
 		this.conta = conta;
 	}
 
-	public Conta() {
-	}
-	
-	public Conta(@NotNull Long conta) {
+	public Conta(@NotNull int agencia, @NotNull Long conta, List<Movimentacoes> movimentacoes, double saldo) {
 		super();
+		this.agencia = agencia;
 		this.conta = conta;
+		this.movimentacoes = movimentacoes;
+		this.saldo = saldo;
+	}
+
+	public Conta() {
+		super();
 	}
 
 	public int getAgencia() {
