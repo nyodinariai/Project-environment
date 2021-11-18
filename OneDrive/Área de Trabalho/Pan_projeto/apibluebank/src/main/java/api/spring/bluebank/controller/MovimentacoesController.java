@@ -35,7 +35,7 @@ public class MovimentacoesController {
 	public ResponseEntity<List<Movimentacoes>> buscarTodos(){
 		return ResponseEntity.ok(mRepository.findAll());
 	}
-
+	
 	@PostMapping("/depositar")
 	public ResponseEntity<ResponseEntity<Movimentacoes>> deposito(@RequestBody Movimentacoes novaMovimentacao) {
 		return ResponseEntity.status(HttpStatus.CREATED)
@@ -47,4 +47,5 @@ public class MovimentacoesController {
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(mService.sacar(novaMovimentacao));
 	}
+
 }

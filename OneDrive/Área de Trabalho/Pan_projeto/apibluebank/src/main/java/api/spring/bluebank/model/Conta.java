@@ -1,10 +1,12 @@
 package api.spring.bluebank.model;
 
-import java.io.Serializable;
-import java.util.HashSet;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import java.util.List;
-import java.util.Set;
-
 import javax.persistence. *;
 import javax.validation.constraints.NotNull;
 
@@ -18,7 +20,9 @@ public class Conta{
 	@NotNull
 	private int agencia;
 	
-	@NotNull
+	private double saldo;
+	
+	//private Cliente titular;
 	private Long conta;
 	
 	@OneToMany(mappedBy = "conta", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -40,11 +44,20 @@ public class Conta{
 //		this.movimentacoes = movimentacoes;
 //	}
 
-	private double saldo;
 
 	private static int total; //esse atributo serve para sabermos quantas contas foram abertas
 	
 	//enum tipo de conta
+	
+	
+	@OneToOne
+	private Cliente cliente;
+
+	public Conta(int agencia, Long conta) {
+		super();
+		this.agencia = agencia;
+		this.conta = conta;
+	}
 
 	public Conta(@NotNull int agencia, @NotNull Long conta, List<Movimentacoes> movimentacoes, double saldo) {
 		super();
@@ -87,13 +100,15 @@ public class Conta{
 	public void setSaldo(double saldo) {
 		this.saldo = saldo;
 	}
-
-
+	
+	
+	//toString
 	@Override
 	public String toString() {
 		return "Conta [agencia=" + agencia + ", conta=" + conta + ", saldo=" + saldo + "]";
 	}
 	
+	//methods
 	public void deposita(double valor) {
 		this.saldo += valor;
 	}

@@ -24,15 +24,15 @@ public class ContaController {
 	private @Autowired ContaService service;
 	private @Autowired ContaRepository repository;
 	
-//	@PostMapping("deposita/{id}")
-//	public Optional<Conta> deposita(@PathVariable Long id, @RequestBody Conta conta) {
-//		return repository.findById(id).map(contaExistente -> {
-//			contaExistente.getSaldo(conta.deposita(0)); //fazer uma soma
-//			return Optional.ofNullable(repository.save(contaExistente));
-//		}).orElseGet(() -> {
-//			return Optional.empty();
-//		});
-//	}
+	@PostMapping("deposita/{id}")
+	public Optional<Conta> deposita(@PathVariable Long id, @RequestBody Conta conta) {
+		return repository.findById(id).map(contaExistente -> {
+			contaExistente.setSaldo(conta.getSaldo()); // + conta.deposita(0d)); //fazer uma soma
+			return Optional.ofNullable(repository.save(contaExistente));
+		}).orElseGet(() -> {
+			return Optional.empty();
+		});
+	}
 	
 	@PostMapping("criar")
 	public ResponseEntity<Conta> criar(@RequestBody Conta conta) {
