@@ -12,5 +12,5 @@ import api.spring.bluebank.model.Conta;
 public interface ContaRepository extends JpaRepository<Conta, Long>{
 
 	@Query(value = "SELECT * FROM conta c WHERE c.conta = :conta ", nativeQuery = true)
-	List<Conta>findByConta( Conta conta);
+	List<Conta> findByConta( Conta conta);
 }

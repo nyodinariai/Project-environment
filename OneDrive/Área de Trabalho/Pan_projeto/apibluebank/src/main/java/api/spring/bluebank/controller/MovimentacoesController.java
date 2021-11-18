@@ -41,4 +41,10 @@ public class MovimentacoesController {
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(mService.deposito(novaMovimentacao));
 	}
+	
+	@PostMapping("/sacar")
+	public ResponseEntity<ResponseEntity<Movimentacoes>> sacar(@RequestBody Movimentacoes novaMovimentacao) {
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(mService.sacar(novaMovimentacao));
+	}
 }

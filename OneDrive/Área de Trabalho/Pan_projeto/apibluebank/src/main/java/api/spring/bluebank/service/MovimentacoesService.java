@@ -29,13 +29,30 @@ public class MovimentacoesService {
 	public ResponseEntity<Movimentacoes> deposito(Movimentacoes mov) {
 		List<Conta> contaExiste = cRepository.findByConta(mov.getConta());
 		Movimentacoes inserir = new Movimentacoes(mov.getConta(), mov.getMovNome(), mov.getValor());
-		System.out.println(contaExiste);
+		double saldoAtual = contaExiste.get(0).getSaldo();
 		
-		System.out.println(inserir);
 		if(!contaExiste.isEmpty()) {
+			
+			contaExiste.get(0).setSaldo(saldoAtual + mov.getValor());
+			System.out.println(contaExiste.get(0).getSaldo());
 			return ResponseEntity.status(201).body(mRepository.save(inserir));
 		} else {	
 			return ResponseEntity.badRequest().build();
-		}
+		}	
+	}
+	
+	public ResponseEntity<Movimentacoes> sacar(Movimentacoes mov) {
+		List<Conta> contaExiste = cRepository.findByConta(mov.getConta());
+		Movimentacoes inserir = new Movimentacoes(mov.getConta(), mov.getMovNome(), mov.getValor());
+		double saldoAtual = contaExiste.get(0).getSaldo();
+		
+		if(!contaExiste.isEmpty() && saldoAtual >= mov.getValor()) {
+			
+			contaExiste.get(0).setSaldo(saldoAtual - mov.getValor());
+			System.out.println(contaExiste.get(0).getSaldo());
+			return ResponseEntity.status(201).body(mRepository.save(inserir));
+		} else {	
+			return ResponseEntity.badRequest().build();
+		}	
 	}
 }
