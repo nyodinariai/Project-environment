@@ -22,17 +22,16 @@ public class MovimentacoesService {
 	private ContaRepository cRepository;
 
 	public ResponseEntity<Movimentacoes> deposito(Movimentacoes mov) {
-
-		List<Conta> contaExiste = cRepository.findByConta(mov.getConta());
-
-		Movimentacoes inserir = new Movimentacoes(mov.getConta(), mov.getMovNome(), mov.getValor());
-		double saldoAtual = contaExiste.get(0).getSaldo();
-
+		List<Conta> contaExiste = cRepository.findByConta(mov.getConta());	
+		mov.setSaldoInicial(contaExiste.get(0).getSaldo());
+		mov.setSaldoFinal(mov.getSaldoInicial()+ mov.getValor());
+		contaExiste.get(0).setSaldo(mov.getSaldoFinal());
+		Movimentacoes inserir = new Movimentacoes(mov.getConta(), mov.getMovNome(), mov.getValor(), mov.getSaldoInicial(), mov.getSaldoFinal());
+		
+		
 		if (!contaExiste.isEmpty()) {
-
-			contaExiste.get(0).setSaldo(saldoAtual + mov.getValor());
+			
 			System.out.println(contaExiste.get(0).getSaldo());
-
 			return ResponseEntity.status(201).body(mRepository.save(inserir));
 		} else {
 			return ResponseEntity.badRequest().build();
@@ -40,13 +39,14 @@ public class MovimentacoesService {
 	}
 
 	public ResponseEntity<Movimentacoes> sacar(Movimentacoes mov) {
-		List<Conta> contaExiste = cRepository.findByConta(mov.getConta());
-		Movimentacoes inserir = new Movimentacoes(mov.getConta(), mov.getMovNome(), mov.getValor());
-		double saldoAtual = contaExiste.get(0).getSaldo();
+		List<Conta> contaExiste = cRepository.findByConta(mov.getConta());	
+		mov.setSaldoInicial(contaExiste.get(0).getSaldo());
+		mov.setSaldoFinal(mov.getSaldoInicial()- mov.getValor());
+		contaExiste.get(0).setSaldo(mov.getSaldoFinal());
+		Movimentacoes inserir = new Movimentacoes(mov.getConta(), mov.getMovNome(), mov.getValor(), mov.getSaldoInicial(), mov.getSaldoFinal());
 
-		if (!contaExiste.isEmpty() && saldoAtual >= mov.getValor()) {
+		if (!contaExiste.isEmpty() && mov.getSaldoInicial() >= mov.getValor()) {
 
-			contaExiste.get(0).setSaldo(saldoAtual - mov.getValor());
 			System.out.println(contaExiste.get(0).getSaldo());
 
 			return ResponseEntity.status(201).body(mRepository.save(inserir));

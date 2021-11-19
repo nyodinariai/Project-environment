@@ -1,18 +1,8 @@
 package api.spring.bluebank.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "conta")
@@ -31,12 +21,10 @@ public class Conta {
 	private static int total; // esse atributo serve para sabermos quantas contas foram abertas
 	
 	//DATABASE RELATIONSHIP 
-	@OneToMany(mappedBy = "conta", cascade = CascadeType.REMOVE)
-	private List<Movimentacoes> movimentacoes = new ArrayList<>();
+	@OneToMany(mappedBy = "conta", cascade = CascadeType.ALL)
+	private List<Movimentacoes> movimentacoes;
 	
-	@ManyToOne
-	@JsonIgnoreProperties("conta")
-	@JoinColumn(name = "fk_cliente")
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Cliente cliente;
 	
 	
@@ -123,7 +111,7 @@ public class Conta {
 	}
 
 	public void setSaldo(double saldo) {
-		this.saldo += saldo;
+		this.saldo = saldo;
 	}
 
 	// toString

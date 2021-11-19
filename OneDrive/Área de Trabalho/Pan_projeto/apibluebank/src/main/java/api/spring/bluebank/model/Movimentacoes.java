@@ -6,10 +6,11 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -36,23 +37,46 @@ public class Movimentacoes{
 	@Column(name = "valor", nullable = false, length = 60)
 	private Double valor;
 	
+	@Column(name = "saldoInicial", nullable = false, length = 60)
+	private Double saldoInicial;
+	
+	@Column(name = "saldoFinal", nullable = false, length = 60)
+	private Double saldoFinal;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data")
 	private Date data = new java.sql.Date(System.currentTimeMillis());
 	
-	@ManyToOne
-	@Cascade(CascadeType.SAVE_UPDATE)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Conta conta;
+
+	public Double getSaldoInicial() {
+		return saldoInicial;
+	}
+
+	public void setSaldoInicial(Double saldoIncial) {
+		this.saldoInicial = saldoIncial;
+	}
+
+	public Double getSaldoFinal() {
+		return saldoFinal;
+	}
+
+	public void setSaldoFinal(Double saldoFinal) {
+		this.saldoFinal = saldoFinal;
+	}
 
 	public Movimentacoes() {
 		this(new Date());
 	}
 	
-	public Movimentacoes(Conta conta, String movNome, Double valor) {
+	public Movimentacoes(Conta conta, String movNome, Double valor, Double saldoInicial, Double saldoFinal) {
 		super();
 		this.setConta(conta);
 		this.setMovNome(movNome);
 		this.setValor(valor);
+		this.setSaldoInicial(saldoInicial);
+		this.setSaldoFinal(saldoFinal);
 	}
 
 	public Movimentacoes(Date data) {
