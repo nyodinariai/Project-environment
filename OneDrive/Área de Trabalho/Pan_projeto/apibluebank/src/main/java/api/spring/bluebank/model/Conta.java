@@ -33,13 +33,12 @@ public class Conta {
 	
 	//DATABASE RELATIONSHIP 
 
-	@OneToMany(mappedBy = "conta", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "conta")//, fetch = FetchType.LAZY)
 	private List<Movimentacoes> movimentacoes = new ArrayList<>();
 
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne//(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cliente_id_fk", nullable = false)
-
 	private Cliente cliente;
 	
 	
