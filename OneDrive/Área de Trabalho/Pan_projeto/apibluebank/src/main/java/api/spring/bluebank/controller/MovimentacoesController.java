@@ -54,6 +54,12 @@ public class MovimentacoesController {
 	}
 	
 	
-	
+	@PostMapping("/transferir/{id}")
+	public ResponseEntity<ResponseEntity<Movimentacoes>> transferir(
+							@RequestBody Movimentacoes novaMovimentacao, @PathVariable Movimentacoes id) {
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(mService.tranferir(novaMovimentacao, id));
+	}
+
 
 }
