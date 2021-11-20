@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "conta")
@@ -30,36 +31,12 @@ public class Conta {
 	// DATABASE RELATIONSHIP
 
 	@OneToMany(mappedBy = "conta")
+	@JsonIgnoreProperties({"movimentacoes", "cliente", "conta"})
 	private List<Movimentacoes> movimentacoes = new ArrayList<>();
 
 	@ManyToOne
 	@JoinColumn(name = "cliente_id_fk", nullable = false)
 	private Cliente cliente;
-
-	// SPECIAL METHODS
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-//	public List<Movimentacoes> getMovimentacoes() {
-//		return movimentacoes;
-//	}
-//
-//	public void setMovimentacoes(List<Movimentacoes> movimentacoes) {
-//		this.movimentacoes = movimentacoes;
-//	}
-
-	public List<Movimentacoes> getMovimentacoes() {
-		return movimentacoes;
-	}
-
-	public void setMovimentacoes(List<Movimentacoes> movimentacoes) {
-		this.movimentacoes = movimentacoes;
-	}
 
 	// CONSTRUTOR
 
@@ -82,6 +59,22 @@ public class Conta {
 	}
 
 	// SPECIAL METHODS
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public List<Movimentacoes> getMovimentacoes() {
+		return movimentacoes;
+	}
+
+	public void setMovimentacoes(List<Movimentacoes> movimentacoes) {
+		this.movimentacoes = movimentacoes;
+	}
+
 	public Cliente getCliente() {
 		return cliente;
 	}
