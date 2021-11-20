@@ -12,6 +12,7 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -31,12 +32,14 @@ public class Conta {
 	private static int total; // esse atributo serve para sabermos quantas contas foram abertas
 	
 	//DATABASE RELATIONSHIP 
-	@OneToMany(mappedBy = "conta", cascade = CascadeType.ALL)
-	private List<Movimentacoes> movimentacoes;
+
+	@OneToMany(mappedBy = "conta", fetch = FetchType.LAZY)
+	private List<Movimentacoes> movimentacoes = new ArrayList<>();
+
 	
-	@ManyToOne
-	@JsonIgnoreProperties("conta")
-	@JoinColumn(name = "fk_cliente")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "cliente_id_fk", nullable = false)
+
 	private Cliente cliente;
 	
 	
@@ -123,7 +126,7 @@ public class Conta {
 	}
 
 	public void setSaldo(double saldo) {
-		this.saldo += saldo;
+		this.saldo = saldo;
 	}
 
 	// toString

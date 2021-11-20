@@ -32,9 +32,14 @@ public class MovimentacoesController {
 	private MovimentacoesService mService;
 
 	@GetMapping
-	public ResponseEntity<List<Movimentacoes>> buscarTodos(){
+	public ResponseEntity<List<Movimentacoes>> buscarTodosId(){
 		return ResponseEntity.ok(mRepository.findAll());
 	}
+	
+//	@GetMapping("/{id}")
+//	public ResponseEntity<List<Movimentacoes>> buscarMovPorId(@PathVariable Conta id){
+//		return ResponseEntity.ok(mRepository.findMovByContaId(id));
+//	}
 	
 	@PostMapping("/depositar")
 	public ResponseEntity<ResponseEntity<Movimentacoes>> deposito(@RequestBody Movimentacoes novaMovimentacao) {
