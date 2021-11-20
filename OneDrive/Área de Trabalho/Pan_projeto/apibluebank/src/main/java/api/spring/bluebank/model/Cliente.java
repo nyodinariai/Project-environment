@@ -1,10 +1,12 @@
 package api.spring.bluebank.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -54,8 +56,8 @@ public class Cliente {
 
 	private String token;
 
-	@OneToMany(mappedBy = "cliente")
-	private List<Conta> conta;
+	@OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
+	private List<Conta> conta = new ArrayList<>();
 
 	// special methods
 
