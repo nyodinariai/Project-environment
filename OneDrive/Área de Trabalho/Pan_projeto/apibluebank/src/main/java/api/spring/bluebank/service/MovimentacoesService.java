@@ -21,19 +21,17 @@ public class MovimentacoesService {
 	@Autowired
 	private ContaRepository cRepository;
 
-	public ResponseEntity<Movimentacoes> deposito(Movimentacoes mov) {
+	public ResponseEntity<Movimentacoes> depositar(Movimentacoes mov) {
 		List<Conta> contaExiste = cRepository.findByConta(mov.getConta());	
 		mov.setSaldoInicial(contaExiste.get(0).getSaldo());
 		mov.setSaldoFinal(mov.getSaldoInicial()+ mov.getValor());
 		contaExiste.get(0).setSaldo(mov.getSaldoFinal());
 		mov.getConta().getSaldo();
-		//Movimentacoes inserir = new Movimentacoes(mov.getConta(), mov.getMovNome(), mov.getValor(), mov.getSaldoInicial(), mov.getSaldoFinal());
-		
 		Movimentacoes inserir = new Movimentacoes(mov.getConta(), mov.getMovNome(), mov.getValor(), mov.getSaldoInicial(), mov.getSaldoFinal());
 
 		if (!contaExiste.isEmpty()) {
-			
 			System.out.println(contaExiste.get(0).getSaldo());
+
 			return ResponseEntity.status(201).body(mRepository.save(inserir));
 		} else {
 			return ResponseEntity.badRequest().build();
@@ -46,24 +44,33 @@ public class MovimentacoesService {
 		mov.setSaldoFinal(mov.getSaldoInicial()- mov.getValor());
 		contaExiste.get(0).setSaldo(mov.getSaldoFinal());
 		Movimentacoes inserir = new Movimentacoes(mov.getConta(), mov.getMovNome(), mov.getValor(), mov.getSaldoInicial(), mov.getSaldoFinal());
-
 		if (!contaExiste.isEmpty() && mov.getSaldoInicial() >= mov.getValor()) {
-
 			System.out.println(contaExiste.get(0).getSaldo());
-
 			return ResponseEntity.status(201).body(mRepository.save(inserir));
 		} else {
 			return ResponseEntity.badRequest().build();
 		}
 	}
 	
-//	public ResponseEntity<List<Movimentacoes>> movPorId(Movimentacoes mov){
-//		List<Conta> contaExiste = cRepository.findByConta(mov.getConta());
-//		Conta contaId = mov.getConta();
-//		if(!contaExiste.isEmpty()) {
-//			return ResponseEntity.status(201).body(mRepository.findMovByContaId(contaId));
-//		} else {
-//		 return ResponseEntity.badRequest().build();
-//		}
-//	}
+	public ResponseEntity<Movimentacoes> tranferir(Movimentacoes valor, Movimentacoes destino) {
+		List<Conta> contaExiste = cRepository.findByConta(valor.getConta());
+		valor.setSaldoInicial(contaExiste.get(0).getSaldo());
+		valor.setSaldoFinal(valor.getSaldoInicial() - valor.getValor());
+		contaExiste.get(0).setSaldo(valor.getSaldoFinal());
+		Movimentacoes inserir = new Movimentacoes(valor.getConta(), valor.getMovNome(), valor.getValor(), valor.getSaldoInicial(), valor.getSaldoFinal());
+		
+		List<Conta> contaDestino = cRepository.findByConta(destino.getConta());
+		destino.setSaldoInicial(contaDestino.get(0).getSaldo());
+		destino.setSaldoFinal(destino.getSaldoInicial() + valor.getValor());
+		contaDestino.get(0).setSaldo(destino.getSaldoFinal());
+		Movimentacoes destino1 = new Movimentacoes(destino.getConta(), destino.getMovNome(), destino.getValor(), destino.getSaldoInicial(), destino.getSaldoFinal());
+		if (!contaExiste.isEmpty() && !contaDestino.isEmpty() && valor.getSaldoInicial() >= valor.getValor()) {
+			Movimentacoes save = mRepository.save(destino1);
+			return ResponseEntity.status(201).body(mRepository.save(inserir));
+			
+		} else {
+			return ResponseEntity.badRequest().build();
+		}
+		
+	}
 }

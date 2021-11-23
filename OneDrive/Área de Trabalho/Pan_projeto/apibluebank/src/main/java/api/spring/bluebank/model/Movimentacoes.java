@@ -41,12 +41,6 @@ public class Movimentacoes{
 	@Column(name = "valor", nullable = false, length = 60)
 	private Double valor;
 	
-	@Column(name = "saldoInicial", nullable = false, length = 60)
-	private Double saldoInicial;
-	
-	@Column(name = "saldoFinal", nullable = false, length = 60)
-	private Double saldoFinal;
-	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data")
 	private Date data = new java.sql.Date(System.currentTimeMillis());
@@ -55,6 +49,10 @@ public class Movimentacoes{
 	@JoinColumn(name = "conta_id_fk", nullable = false)
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private Conta conta;
+
+	private Double saldoFinal;
+
+	private Double saldoInicial;
 	
 	public Double getSaldoInicial() {
 		return saldoInicial;

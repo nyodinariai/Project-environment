@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,12 +12,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
-
-
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.hibernate.validator.constraints.br.CPF;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * 
@@ -56,7 +60,10 @@ public class Cliente {
 
 	private String token;
 
-	@OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
+	// relationship
+
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.REMOVE)
+	@JsonIgnoreProperties({"cliente", "movimentacoes"})
 	private List<Conta> conta = new ArrayList<>();
 
 	// special methods
@@ -64,16 +71,17 @@ public class Cliente {
 	public Long getId() {
 		return id;
 	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
+
 	public int getTelefone() {
 		return telefone;
 	}
 
 	public void setTelefone(int telefone) {
 		this.telefone = telefone;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getNome() {

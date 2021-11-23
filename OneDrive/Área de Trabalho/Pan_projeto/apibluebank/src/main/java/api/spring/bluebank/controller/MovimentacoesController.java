@@ -44,7 +44,7 @@ public class MovimentacoesController {
 	@PostMapping("/depositar")
 	public ResponseEntity<ResponseEntity<Movimentacoes>> deposito(@RequestBody Movimentacoes novaMovimentacao) {
 		return ResponseEntity.status(HttpStatus.OK)
-				.body(mService.deposito(novaMovimentacao));
+				.body(mService.depositar(novaMovimentacao));
 	}
 	
 	@PostMapping("/sacar")
@@ -52,8 +52,14 @@ public class MovimentacoesController {
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(mService.sacar(novaMovimentacao));
 	}
-
-
+	
+	
+	@PostMapping("/transferir/{id}")
+	public ResponseEntity<ResponseEntity<Movimentacoes>> transferir(
+							@RequestBody Movimentacoes novaMovimentacao, @PathVariable Movimentacoes id) {
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(mService.tranferir(novaMovimentacao, id));
+	}
 
 
 }
