@@ -27,7 +27,7 @@ public class MovimentacoesService {
 		mov.setSaldoFinal(mov.getSaldoInicial()+ mov.getValor());
 		contaExiste.get(0).setSaldo(mov.getSaldoFinal());
 		mov.getConta().getSaldo();
-		Movimentacoes inserir = new Movimentacoes(mov.getConta(), mov.getMovNome(), mov.getValor(), mov.getSaldoInicial(), mov.getSaldoFinal());
+		Movimentacoes inserir = new Movimentacoes(mov.getConta(), mov.getTipoMovimentacao(), mov.getValor(), mov.getSaldoInicial(), mov.getSaldoFinal());
 
 		if (!contaExiste.isEmpty()) {
 			System.out.println(contaExiste.get(0).getSaldo());
@@ -43,7 +43,7 @@ public class MovimentacoesService {
 		mov.setSaldoInicial(contaExiste.get(0).getSaldo());
 		mov.setSaldoFinal(mov.getSaldoInicial()- mov.getValor());
 		contaExiste.get(0).setSaldo(mov.getSaldoFinal());
-		Movimentacoes inserir = new Movimentacoes(mov.getConta(), mov.getMovNome(), mov.getValor(), mov.getSaldoInicial(), mov.getSaldoFinal());
+		Movimentacoes inserir = new Movimentacoes(mov.getConta(), mov.getTipoMovimentacao(), mov.getValor(), mov.getSaldoInicial(), mov.getSaldoFinal());
 		if (!contaExiste.isEmpty() && mov.getSaldoInicial() >= mov.getValor()) {
 			System.out.println(contaExiste.get(0).getSaldo());
 			return ResponseEntity.status(201).body(mRepository.save(inserir));
@@ -57,13 +57,13 @@ public class MovimentacoesService {
 		valor.setSaldoInicial(contaExiste.get(0).getSaldo());
 		valor.setSaldoFinal(valor.getSaldoInicial() - valor.getValor());
 		contaExiste.get(0).setSaldo(valor.getSaldoFinal());
-		Movimentacoes inserir = new Movimentacoes(valor.getConta(), valor.getMovNome(), valor.getValor(), valor.getSaldoInicial(), valor.getSaldoFinal());
+		Movimentacoes inserir = new Movimentacoes(valor.getConta(), valor.getTipoMovimentacao(), valor.getValor(), valor.getSaldoInicial(), valor.getSaldoFinal());
 		
 		List<Conta> contaDestino = cRepository.findByConta(destino.getConta());
 		destino.setSaldoInicial(contaDestino.get(0).getSaldo());
 		destino.setSaldoFinal(destino.getSaldoInicial() + valor.getValor());
 		contaDestino.get(0).setSaldo(destino.getSaldoFinal());
-		Movimentacoes destino1 = new Movimentacoes(destino.getConta(), destino.getMovNome(), destino.getValor(), destino.getSaldoInicial(), destino.getSaldoFinal());
+		Movimentacoes destino1 = new Movimentacoes(destino.getConta(), destino.getTipoMovimentacao(), destino.getValor(), destino.getSaldoInicial(), destino.getSaldoFinal());
 		if (!contaExiste.isEmpty() && !contaDestino.isEmpty() && valor.getSaldoInicial() >= valor.getValor()) {
 			Movimentacoes save = mRepository.save(destino1);
 			return ResponseEntity.status(201).body(mRepository.save(inserir));
