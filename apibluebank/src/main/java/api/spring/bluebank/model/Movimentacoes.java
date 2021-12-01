@@ -23,8 +23,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
-import api.spring.bluebank.model.enun.TipoMovimentacao;
-
 
 @Entity
 @Table(name="movimentacoes")
@@ -37,8 +35,8 @@ public class Movimentacoes{
 //	private Long conta;
 	
 	//Saque/Deposito/Pagamento
-	@Column(name = "tipo_movimentacao", nullable = false, length = 60)
-	private TipoMovimentacao tipoMovimentacao;
+	@Column(name = "movNome", nullable = false, length = 60)
+	private String movNome;
 	
 	@Column(name = "valor", nullable = false, length = 60)
 	private Double valor;
@@ -76,10 +74,10 @@ public class Movimentacoes{
 		this(new Date());
 	}
 	
-	public Movimentacoes(Conta conta, TipoMovimentacao movNome, Double valor, Double saldoInicial, Double saldoFinal) {
+	public Movimentacoes(Conta conta, String movNome, Double valor, Double saldoInicial, Double saldoFinal) {
 		super();
 		this.setConta(conta);
-		this.setTipoMovimentacao(movNome);
+		this.setMovNome(movNome);
 		this.setValor(valor);
 		this.setSaldoInicial(saldoInicial);
 		this.setSaldoFinal(saldoFinal);
@@ -99,12 +97,12 @@ public class Movimentacoes{
 		this.id = id;
 	}
 
-	public TipoMovimentacao getTipoMovimentacao() {
-		return tipoMovimentacao;
+	public String getMovNome() {
+		return movNome;
 	}
 
-	public void setTipoMovimentacao(TipoMovimentacao tipoMovimentacao) {
-		this.tipoMovimentacao = tipoMovimentacao;
+	public void setMovNome(String movNome) {
+		this.movNome = movNome;
 	}
 
 	public Double getValor() {

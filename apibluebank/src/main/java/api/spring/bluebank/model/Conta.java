@@ -1,15 +1,19 @@
 package api.spring.bluebank.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "conta")
@@ -26,17 +30,19 @@ public class Conta {
 	private Long conta;
 
 	private static int total; // esse atributo serve para sabermos quantas contas foram abertas
+	
+	//DATABASE RELATIONSHIP 
 
-	// DATABASE RELATIONSHIP
-
-	@OneToMany(mappedBy = "conta")
+	@OneToMany(mappedBy = "conta")//, fetch = FetchType.LAZY)
 	private List<Movimentacoes> movimentacoes = new ArrayList<>();
 
-	@ManyToOne
+	
+	@ManyToOne//(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cliente_id_fk", nullable = false)
 	private Cliente cliente;
-
-	// SPECIAL METHODS
+	
+	
+	//SPECIAL METHODS
 	public Long getId() {
 		return id;
 	}
@@ -61,27 +67,6 @@ public class Conta {
 		this.movimentacoes = movimentacoes;
 	}
 
-	// CONSTRUTOR
-
-	public Conta(int agencia, Long conta) {
-		super();
-		this.agencia = agencia;
-		this.conta = conta;
-	}
-
-	public Conta(@NotNull int agencia, @NotNull Long conta, List<Movimentacoes> movimentacoes, double saldo) {
-		super();
-		this.agencia = agencia;
-		this.conta = conta;
-		this.movimentacoes = movimentacoes;
-		this.saldo = saldo;
-	}
-
-	public Conta() {
-		super();
-	}
-
-	// SPECIAL METHODS
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -96,6 +81,27 @@ public class Conta {
 
 	public static void setTotal(int total) {
 		Conta.total = total;
+	}
+
+
+
+	public Conta(int agencia, Long conta) {
+		super();
+		this.agencia = agencia;
+		this.conta = conta;
+	}
+
+
+	public Conta(@NotNull int agencia, @NotNull Long conta, List<Movimentacoes> movimentacoes, double saldo) {
+		super();
+		this.agencia = agencia;
+		this.conta = conta;
+		this.movimentacoes = movimentacoes;
+		this.saldo = saldo;
+	}
+
+	public Conta() {
+		super();
 	}
 
 	public int getAgencia() {
@@ -128,4 +134,24 @@ public class Conta {
 		return "Conta [agencia=" + agencia + ", conta=" + conta + ", saldo=" + saldo + "]";
 	}
 
+	// methods
+
+	public boolean saca(double valor) {
+		if (this.saldo >= valor) {
+			this.saldo -= valor;
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+//	public boolean tranfere(double valor, Conta destino) {
+//		if (this.saldo >= valor) {
+//			this.saldo -= valor;
+//			destino.deposita(valor);
+//			return true;
+//		} else {
+//			return false;
+//		}
+//	}
 }
